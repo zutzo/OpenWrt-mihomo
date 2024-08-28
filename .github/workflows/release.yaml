@@ -62,6 +62,9 @@ jobs:
 
       - name: Clear branch history
         run: |
+          git init
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm -rf .
           git commit --allow-empty -m "Reset branch"
           git push origin files --force
