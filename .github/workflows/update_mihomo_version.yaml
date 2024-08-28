@@ -2,7 +2,7 @@ name: Update Mihomo Version
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 */8 * * *"  # 每8小时运行一次
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: morytyann/OpenWrt-mihomo
+          repository: zutzo/OpenWrt-mihomo
           ref: main
           fetch-depth: 0
           path: OpenWrt-mihomo
@@ -25,6 +25,7 @@ jobs:
         run: |
           echo "pkg_source_version=$(grep "PKG_SOURCE_VERSION:=" OpenWrt-mihomo/mihomo/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
           echo "pkg_mirror_hash=$(grep "PKG_MIRROR_HASH:=" OpenWrt-mihomo/mihomo/Makefile | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
+
   get_lastest_info:
     runs-on: ubuntu-latest
     outputs:
@@ -46,6 +47,7 @@ jobs:
           git -C mihomo config tar.xz.command "xz -c"
           git -C mihomo archive --output=mihomo.tar.xz HEAD
           echo "checksum=$(sha256sum mihomo/mihomo.tar.xz | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
+
   update:
     needs:
       - get_current_info
@@ -57,7 +59,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: morytyann/OpenWrt-mihomo
+          repository: zutzo/OpenWrt-mihomo
           ref: main
           fetch-depth: 0
           path: OpenWrt-mihomo
@@ -80,8 +82,7 @@ jobs:
             From:
             - PKG_SOURCE_VERSION: `${{ needs.get_current_info.outputs.pkg_source_version }}`
             - PKG_MIRROR_HASH: `${{ needs.get_current_info.outputs.pkg_mirror_hash }}`
-
             To:
             - PKG_SOURCE_VERSION: `${{ needs.get_lastest_info.outputs.commit_sha }}`
             - PKG_MIRROR_HASH: `${{ needs.get_lastest_info.outputs.checksum }}`
-        
+          auto-merge: true  # 自动合并 PR
