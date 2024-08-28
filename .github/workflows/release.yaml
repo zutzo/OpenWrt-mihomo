@@ -2,9 +2,9 @@ name: Release Packages
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - v*
+  workflow_run:
+    workflows: [Build Packages]
+    types: [completed]
 
 jobs:
   build:
