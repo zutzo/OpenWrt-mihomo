@@ -55,8 +55,20 @@ jobs:
         run: |
           tar -c -z -f mihomo_${{ matrix.arch }}.tar.gz -C bin/packages/${{ matrix.arch }}/mihomo .
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            mihomo_${{ matrix.arch }}.tar.gz
+      - name: Checkout files branch
+        run: |
+          git fetch origin files
+          git checkout -B files origin/files
+
+      - name: Clear branch history
+        run: |
+          git rm -rf .
+          git commit --allow-empty -m "Reset branch"
+          git push origin files --force
+
+      - name: Add and push files
+        run: |
+          cp mihomo_${{ matrix.arch }}.tar.gz .
+          git add mihomo_${{ matrix.arch }}.tar.gz
+          git commit -m "Add build for ${{ matrix.arch }}-${{ matrix.release }}"
+          git push origin files
