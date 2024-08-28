@@ -71,7 +71,6 @@ jobs:
 
       - name: Add and push files
         run: |
-          cp mihomo_${{ matrix.arch }}.tar.gz .
           git add mihomo_${{ matrix.arch }}.tar.gz
           git commit -m "Add build for ${{ matrix.arch }}-${{ matrix.release }}"
           git push origin files
