@@ -70,19 +70,13 @@ jobs:
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ needs.get_lastest_info.outputs.commit_sha }}/" OpenWrt-mihomo/mihomo/Makefile
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ needs.get_lastest_info.outputs.checksum }}/" OpenWrt-mihomo/mihomo/Makefile
           sed -i "s/PKG_RELEASE:=.*/PKG_RELEASE:=1/" OpenWrt-mihomo/mihomo/Makefile
-      - id: pr
-        name: Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          path: OpenWrt-mihomo
-          branch: dependabot
-          commit-message: Update Mihomo Version
-          title: Update Mihomo Version
-          body: |
-            From:
-            - PKG_SOURCE_VERSION: `${{ needs.get_current_info.outputs.pkg_source_version }}`
-            - PKG_MIRROR_HASH: `${{ needs.get_current_info.outputs.pkg_mirror_hash }}`
-            To:
-            - PKG_SOURCE_VERSION: `${{ needs.get_lastest_info.outputs.commit_sha }}`
-            - PKG_MIRROR_HASH: `${{ needs.get_lastest_info.outputs.checksum }}`
-          auto-merge: true  # 自动合并 PR
+          
+      - name: Commit and Push Changes
+        run: |
+         git config --global user.name 'github-actions[bot]'
+         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+         git add .
+         git commit -m "Update Mihomo Alpha Version"
+         git push
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
