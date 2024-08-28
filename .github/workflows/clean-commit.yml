@@ -21,7 +21,7 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan clearhistory
           git branch -D files
-          git checkout --orphan main
+          git checkout --orphan files
           git add .
           git commit -m "🚀 CI Updated"
           git remote set-url --add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
