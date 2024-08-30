@@ -3,7 +3,7 @@ name: Release Packages
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: [Build Packages]
+    workflows: [Update Mihomo Version]
     types: [completed]
 
 jobs:
