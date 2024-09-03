@@ -55,11 +55,6 @@ jobs:
         run: |
           tar -c -z -f mihomo_${{ matrix.arch }}.tar.gz -C bin/packages/${{ matrix.arch }}/mihomo .
 
-      - name: Checkout files branch
-        run: |
-          git fetch origin files
-          git checkout -B files origin/files
-
       - name: Add and push files
         run: |
           git init
