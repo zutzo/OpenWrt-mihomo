@@ -65,10 +65,11 @@ jobs:
         run: |
           git init
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin files
-          git checkout -b files origin/files
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"          
           find . -type f ! -name 'mihomo*.tar.gz' -delete
-          git add mihomo_${{ matrix.arch }}.tar.gz
+          #git add mihomo_${{ matrix.arch }}.tar.gz
+          git add .
           git commit -m "Add build for ${{ matrix.arch }}-${{ matrix.release }}"
-          git push origin files -f
+          #git checkout -b files origin/files
+          git push origin HEAD:files -f
+
