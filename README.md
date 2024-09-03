@@ -4,6 +4,9 @@
 
 Transparent Proxy with Mihomo on OpenWrt.
 
+> [!WARNING]
+> - Only support firewall4, it means your OpenWrt version needs to be 22.03 or above
+
 ## Feature
  - Transparent Proxy (TPROXY/TUN, IPv4 and/or IPv6)
  - Access Control
@@ -25,10 +28,9 @@ See [Wiki](https://github.com/morytyann/OpenWrt-mihomo/wiki)
 1. Mixin and Update profile.
 2. Run mihomo.
 3. Run hijack prepare script.
-4. Add exclusions. (wan/wan6 inbound)
-5. Add router hijack.
-6. Add lan hijack with access control.
-7. Set scheduled restart.
+4. Add router hijack.
+5. Add lan hijack with access control.
+6. Set scheduled restart.
 
 Note that the steps above may change base on config.
 
@@ -55,6 +57,4 @@ The ipk file will be found under `bin/packages/your_architecture/mihomo`.
 - ip-full
 - kmod-tun
 
-## Warning
 
-- Only support firewall4 and will never support firewall3

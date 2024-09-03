@@ -3,9 +3,8 @@
 # MihomoTProxy's installer
 
 # check env
-echo "Checking..."
-if [ ! -x "/bin/opkg" ]; then
-    echo "Only supports OpenWrt!"
+if [[ ! -x "/bin/opkg" || ! -x "/sbin/fw4" ]]; then
+    echo "Only supports OpenWrt build with firewall4!"
     exit 1
 fi
 if [ ! -x "/usr/sbin/nft" ]; then
@@ -65,6 +64,7 @@ if [ "$?" != 0 ]; then
 fi
 
 # cleanup
+rm -f ./mihomo_*.tar.gz
 rm -f ./*mihomo*.ipk
 
 echo "Installation completed successfully."

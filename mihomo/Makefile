@@ -42,6 +42,8 @@ endef
 define Package/mihomo/conffiles
 /etc/config/mihomo
 /etc/mihomo/mixin.yaml
+/etc/mihomo/nftables/reserved_ip.nft
+/etc/mihomo/nftables/reserved_ip6.nft
 endef
 
 define Package/mihomo/install
@@ -61,6 +63,8 @@ define Package/mihomo/install
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/tun.sh $(1)/etc/mihomo/scripts/tun.sh
 
 	$(INSTALL_BIN) $(CURDIR)/files/nftables/hijack.nft $(1)/etc/mihomo/nftables/hijack.nft
+	$(INSTALL_BIN) $(CURDIR)/files/nftables/reserved_ip.nft $(1)/etc/mihomo/nftables/reserved_ip.nft
+	$(INSTALL_BIN) $(CURDIR)/files/nftables/reserved_ip6.nft $(1)/etc/mihomo/nftables/reserved_ip6.nft
 	$(INSTALL_BIN) $(CURDIR)/files/nftables/geoip_cn.nft $(1)/etc/mihomo/nftables/geoip_cn.nft
 	$(INSTALL_BIN) $(CURDIR)/files/nftables/geoip6_cn.nft $(1)/etc/mihomo/nftables/geoip6_cn.nft
 
@@ -76,6 +80,9 @@ define Package/mihomo/install
 
 	$(INSTALL_DIR) $(1)/etc/capabilities
 	$(INSTALL_DATA) $(CURDIR)/files/capabilities.json $(1)/etc/capabilities/mihomo.json
+
+	$(INSTALL_DIR) $(1)/lib/upgrade/keep.d
+	$(INSTALL_DATA) $(CURDIR)/files/mihomo.upgrade $(1)/lib/upgrade/keep.d/mihomo
 endef
 
 define Build/Prepare
