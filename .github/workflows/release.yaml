@@ -60,6 +60,7 @@ jobs:
           git init
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b files
           git add mihomo_${{ matrix.arch }}.tar.gz
           git commit -m "Add build for ${{ matrix.arch }}-${{ matrix.release }}"
           git pull
