@@ -55,6 +55,12 @@ jobs:
         run: |
           tar -c -z -f mihomo_${{ matrix.arch }}.tar.gz -C bin/packages/${{ matrix.arch }}/mihomo .
 
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.arch }}-${{ matrix.release }}
+          path: bin/packages/${{ matrix.arch }}/mihomo/*.ipk
+          
       - name: Add and push files
         run: |
           git init
@@ -63,5 +69,4 @@ jobs:
           git checkout -b files
           git add mihomo_${{ matrix.arch }}.tar.gz
           git commit -m "Add build for ${{ matrix.arch }}-${{ matrix.release }}"
-          git pull
           git push origin files -f
