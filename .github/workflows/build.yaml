@@ -2,9 +2,7 @@ name: Build Packages
 
 on:
   workflow_dispatch:
-  push:
-      paths:
-       - mihomo/Makefile
+
 
 jobs:
   build:
