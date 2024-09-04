@@ -35,12 +35,12 @@ jobs:
     - name: Unzip artifact
       run: |
         ls -R
-        unzip aarch64* 
-        tar -czvf mihomo_aarch64_generic.tar.gz *.ipk
-        rm *.ipk
-        unzip x86* 
-        tar -czvf mihomo_x86_64.tar.gz *.ipk
-        rm *.ipk
+        #unzip aarch64* 
+        tar -czvf mihomo_aarch64_generic.tar.gz ./aarch64*/*.ipk
+        #rm *.ipk
+        #unzip x86* 
+        tar -czvf mihomo_x86_64.tar.gz ./x86*/*.ipk
+        #rm *.ipk
 
     - name: Commit and Push Changes
       run: |
