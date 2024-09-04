@@ -16,7 +16,7 @@ jobs:
           ref: files
       - name: commit
         run: |
-          find . -type f ! -name '*.tar.gz' -delete
+          find . -type f ! -name '*.tar.gz' ! -path './.git/*' -delete
           git init
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
