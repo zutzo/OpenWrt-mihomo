@@ -26,7 +26,7 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with:
-        name: archive.tar.gz
+        #name: archive.tar.gz
         github-token: ${{ secrets.GITHUB_TOKEN }} # token with actions:read permissions on target repo
         repository: zutzo/OpenWrt-mihomo
         run-id: ${{ steps.get_run_id.outputs.run_id }}
