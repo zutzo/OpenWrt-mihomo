@@ -34,18 +34,14 @@ jobs:
 
     - name: Unzip artifact
       run: |
-        ls -R
-        #unzip aarch64* 
         tar -czvf mihomo_aarch64_generic.tar.gz ./aarch64*/*.ipk
-        #rm *.ipk
-        #unzip x86* 
         tar -czvf mihomo_x86_64.tar.gz ./x86*/*.ipk
-        #rm *.ipk
 
     - name: Commit and Push Changes
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git checkout -b files -f
         git add *.tar.gz
         git commit -m "Add latest artifact $(date +%Y-%m-%d)"
         git push origin files -f
