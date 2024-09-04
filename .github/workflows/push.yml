@@ -1,0 +1,44 @@
+name: Download and Unzip Artifact
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Release Packages]
+    types: [completed]
+
+jobs:
+  download_and_unzip:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Get latest run ID
+      id: get_run_id
+      run: |      
+        rm -rf ./*
+        latest_run_id=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        https://api.github.com/repos/zutzo/OpenWrt-mihomo/actions/workflows/release.yaml/runs | jq '.workflow_runs[0].id')
+        echo "Latest run ID: $latest_run_id"
+        echo "::set-output name=run_id::$latest_run_id"
+        
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: archive.tar.gz
+        github-token: ${{ secrets.GITHUB_TOKEN }} # token with actions:read permissions on target repo
+        repository: zutzo/OpenWrt-mihomo
+        run-id: ${{ steps.get_run_id.outputs.run_id }}
+        #path: artifact.tar
+    
+    - name: Commit and Push Changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add *.tar.gz
+        git commit -m "Add latest artifact $(date +%Y-%m-%d)"
+        git push origin files -f
+        
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
