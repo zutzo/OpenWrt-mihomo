@@ -16,13 +16,13 @@ jobs:
           ref: files
       - name: commit
         run: |
+          find . -type f ! -name '*.tar.gz' -delete
           git init
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan clearhistory
           git branch -D files
           git checkout --orphan files
-          find . -type f ! -name '*.tar.gz' -delete
           git add .
           git commit -m "🚀 CI Updated"
           git remote set-url --add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
