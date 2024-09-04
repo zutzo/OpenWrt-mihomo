@@ -34,6 +34,7 @@ jobs:
 
     - name: Unzip artifact
       run: |
+        ls -R
         unzip aarch64* 
         tar -czvf mihomo_aarch64_generic.tar.gz *.ipk
         rm *.ipk
