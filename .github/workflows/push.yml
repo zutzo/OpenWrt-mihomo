@@ -31,7 +31,16 @@ jobs:
         repository: zutzo/OpenWrt-mihomo
         run-id: ${{ steps.get_run_id.outputs.run_id }}
         #path: artifact.tar
-    
+
+    - name: Unzip artifact
+      run: |
+        unzip aarch64* 
+        tar -czvf mihomo_aarch64_generic.tar.gz *.ipk
+        rm *.ipk
+        unzip x86* 
+        tar -czvf mihomo_x86_64.tar.gz *.ipk
+        rm *.ipk
+
     - name: Commit and Push Changes
       run: |
         git config --global user.name 'github-actions[bot]'
