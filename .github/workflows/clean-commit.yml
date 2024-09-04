@@ -22,7 +22,7 @@ jobs:
           git checkout --orphan clearhistory
           git branch -D files
           git checkout --orphan files
-          git add .
+          git add *.tar.gz
           git commit -m "🚀 CI Updated"
           git remote set-url --add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push -f -u origin files
