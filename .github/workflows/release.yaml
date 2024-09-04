@@ -61,17 +61,42 @@ jobs:
           name: ${{ matrix.arch }}-${{ matrix.release }}
           path: bin/packages/${{ matrix.arch }}/mihomo/*.ipk
           
-      - name: Checkout files branch
-        run: |
-          git fetch origin files
-          git checkout -B files origin/files
+      - name: Delete previous release
+        uses: actions/github-script@v6
+        continue-on-error: true
+        with:
+          script: |
+            const releases = await github.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            if (releases.data.length > 0) {
+              const latestRelease = releases.data[0];
+              await github.repos.deleteRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: latestRelease.id
+              });
+              await github.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${latestRelease.tag_name}`
+              });
+            }
 
-      - name: Add and push files
-        run: |
-          git init
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add mihomo_${{ matrix.arch }}.tar.gz
-          git commit -m "Add build for ${{ matrix.arch }}-${{ matrix.release }}"
-          #git pull
-          git push origin files -f
+      - name: Create new release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: $(date +'%Y-%m-%d')
+          release_name: Release $(date +'%Y-%m-%d')
+          draft: false
+          prerelease: false
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: bin/packages/${{ matrix.arch }}/mihomo/*.ipk
+          asset_name: ${{ matrix.arch }}-${{ matrix.release }}.ipk
+          asset_content_type: application/octet-stream
