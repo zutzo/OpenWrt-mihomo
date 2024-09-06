@@ -94,6 +94,15 @@ msgstr "代理配置"
 msgid "Transparent Proxy"
 msgstr "透明代理"
 
+msgid "TCP Proxy Mode"
+msgstr "TCP 代理模式"
+
+msgid "UDP Proxy Mode"
+msgstr "UDP 代理模式"
+
+msgid "Redirect Mode"
+msgstr "Redirect 模式"
+
 msgid "TPROXY Mode"
 msgstr "TPROXY 模式"
 

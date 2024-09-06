@@ -7,7 +7,7 @@
 'require rpc';
 'require poll';
 'require tools.widgets as widgets';
-'require tools.mihomo as mihomo'
+'require tools.mihomo as mihomo';
 
 function renderStatus(running) {
     return updateStatus(E('input', { id: 'core_status', style: 'border: unset; font-style: italic; font-weight: bold;', readonly: '' }), running);
@@ -140,7 +140,12 @@ return view.extend({
         o = s.taboption('transparent_proxy', form.Flag, 'transparent_proxy', _('Enable'));
         o.rmempty = false;
 
-        o = s.taboption('transparent_proxy', form.ListValue, 'transparent_proxy_mode', _('Mode'));
+        o = s.taboption('transparent_proxy', form.ListValue, 'tcp_transparent_proxy_mode', _('TCP Proxy Mode'));
+        o.value('redirect', _('Redirect Mode'));
+        o.value('tproxy', _('TPROXY Mode'));
+        o.value('tun', _('TUN Mode'));
+
+        o = s.taboption('transparent_proxy', form.ListValue, 'udp_transparent_proxy_mode', _('UDP Proxy Mode'));
         o.value('tproxy', _('TPROXY Mode'));
         o.value('tun', _('TUN Mode'));
 
@@ -244,7 +249,7 @@ return view.extend({
         o.value('clash');
 
         s = m.section(form.NamedSection, 'mixin', 'mixin', _('Mixin Config'));
-
+    
         s.tab('general', _('General Config'));
 
         o = s.taboption('general', form.ListValue, 'log_level', _('Log Level'));
