@@ -19,7 +19,7 @@ jobs:
       run: |      
         rm -rf ./*
         latest_run_id=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        https://api.github.com/repos/zutzo/OpenWrt-mihomo/actions/workflows/release.yaml/runs | jq '.workflow_runs[0].id')
+        https://api.github.com/repos/zutzo/OpenWrt-mihomo/actions/workflows/release.yml/runs | jq '.workflow_runs[0].id')
         echo "Latest run ID: $latest_run_id"
         echo "::set-output name=run_id::$latest_run_id"
         
